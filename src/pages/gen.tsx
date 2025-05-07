@@ -17,7 +17,7 @@ export default function Gen({
   const router = useRouter();
 
   useEffect(() => {
-    router.replace(link);
+    if (link) router.replace(link);
   }, []);
 
   return (
