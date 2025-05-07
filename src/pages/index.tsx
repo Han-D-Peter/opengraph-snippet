@@ -4,6 +4,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [img, setImg] = useState("");
+  const [redirectUrl, setRedirectUrl] = useState("");
 
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -11,7 +12,7 @@ export default function Home() {
     const encodedTitle = encodeURIComponent(title);
     const encodedDescription = encodeURIComponent(description);
     const encodedImg = encodeURIComponent(img);
-    const url = `https://opengraph-snippet.vercel.app/gen?title=${encodedTitle}&content=${encodedDescription}&img=${encodedImg}`;
+    const url = `https://opengraph-snippet.vercel.app/gen?title=${encodedTitle}&content=${encodedDescription}&img=${encodedImg}&link=${redirectUrl}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
@@ -59,6 +60,14 @@ export default function Home() {
             value={img}
             onChange={(e) => setImg(e.target.value)}
             placeholder="이미지 있으면 이미지 주소"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={redirectUrl}
+            onChange={(e) => setRedirectUrl(e.target.value)}
+            placeholder="리다이렉트 주소"
           />
         </div>
         <div>
