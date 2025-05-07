@@ -32,3 +32,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return { props: { title, content, img } };
 }
+
+// https://opengraph-snippet.vercel.app/gen?title=hello&description=byebye&img=https://www.imgacademy.com/sites/default/files/img-academy-performance-center.jpg
