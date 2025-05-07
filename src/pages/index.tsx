@@ -11,7 +11,7 @@ export default function Home() {
     const encodedTitle = encodeURIComponent(title);
     const encodedDescription = encodeURIComponent(description);
     const encodedImg = encodeURIComponent(img);
-    const url = `https://opengraph-snippet.vercel.app/gen?title=${encodedTitle}&description=${encodedDescription}&img=${encodedImg}`;
+    const url = `https://opengraph-snippet.vercel.app/gen?title=${encodedTitle}&content=${encodedDescription}&img=${encodedImg}`;
     navigator.clipboard
       .writeText(url)
       .then(() => {
