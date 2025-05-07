@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [img, setImg] = useState("");
+
+  const titleRef = useRef<HTMLInputElement>(null);
 
   function copyToClipboard() {
     const encodedTitle = encodeURIComponent(title);
@@ -19,27 +21,50 @@ export default function Home() {
         console.error("Failed to copy: ", err);
       });
   }
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, []);
   return (
-    <div>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목"
-      />
-      <input
-        type="text"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="내용"
-      />
-      <input
-        type="text"
-        value={img}
-        onChange={(e) => setImg(e.target.value)}
-        placeholder="이미지 있으면 이미지 주소"
-      />
-      <button onClick={copyToClipboard}>복사하기</button>
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "10px",
+        }}
+      >
+        <div>
+          <input
+            ref={titleRef}
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="제목"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="내용"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={img}
+            onChange={(e) => setImg(e.target.value)}
+            placeholder="이미지 있으면 이미지 주소"
+          />
+        </div>
+        <div>
+          <button onClick={copyToClipboard}>복사하기</button>
+        </div>
+      </div>
     </div>
   );
 }
