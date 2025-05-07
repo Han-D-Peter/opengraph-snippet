@@ -1,11 +1,9 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [title, setTitle] = useState("hello");
-  const [description, setDescription] = useState("byebye");
-  const [img, setImg] = useState(
-    "https://www.imgacademy.com/sites/default/files/img-academy-performance-center.jpg"
-  );
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [img, setImg] = useState("");
 
   function copyToClipboard() {
     const encodedTitle = encodeURIComponent(title);
@@ -27,19 +25,19 @@ export default function Home() {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
+        placeholder="제목"
       />
       <input
         type="text"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
+        placeholder="내용"
       />
       <input
         type="text"
         value={img}
         onChange={(e) => setImg(e.target.value)}
-        placeholder="Image URL"
+        placeholder="이미지 있으면 이미지 주소"
       />
       <button onClick={copyToClipboard}>복사하기</button>
     </div>
