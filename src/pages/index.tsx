@@ -11,10 +11,10 @@ export default function Home() {
   const titleRef = useRef<HTMLInputElement>(null);
 
   async function copyToClipboard() {
-    const encodedTitle = encodeURIComponent(title) || null;
-    const encodedDescription = encodeURIComponent(description) || null;
-    const encodedImg = encodeURIComponent(img) || null;
-    const encodedRedirectUrl = encodeURIComponent(redirectUrl) || null;
+    const encodedTitle = title || null;
+    const encodedDescription = description || null;
+    const encodedImg = img || null;
+    const encodedRedirectUrl = redirectUrl || null;
 
     async function generateUniqueLink() {
       const randomText = generateUniqueRandomString();
