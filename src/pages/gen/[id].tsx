@@ -18,7 +18,11 @@ export default function Gen({
   const router = useRouter();
 
   useEffect(() => {
-    if (redirectUrl) router.replace(redirectUrl);
+    if (redirectUrl) {
+      router.replace(redirectUrl);
+    } else {
+      router.replace(process.env.NEXT_PUBLIC_VERCEL_URL!);
+    }
   }, []);
 
   return (
