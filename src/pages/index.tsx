@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { clientSupabase } from "./_app";
+import { generateUniqueRandomString } from "@/utils/generateUniqueRandonString";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -8,11 +10,51 @@ export default function Home() {
 
   const titleRef = useRef<HTMLInputElement>(null);
 
-  function copyToClipboard() {
-    const encodedTitle = encodeURIComponent(title);
-    const encodedDescription = encodeURIComponent(description);
-    const encodedImg = encodeURIComponent(img);
-    const url = `https://opengraph-snippet.vercel.app/gen?title=${encodedTitle}&content=${encodedDescription}&img=${encodedImg}&link=${redirectUrl}`;
+  async function copyToClipboard() {
+    const encodedTitle = encodeURIComponent(title) || null;
+    const encodedDescription = encodeURIComponent(description) || null;
+    const encodedImg = encodeURIComponent(img) || null;
+    const encodedRedirectUrl = encodeURIComponent(redirectUrl) || null;
+
+    async function generateUniqueLink() {
+      const randomText = generateUniqueRandomString();
+
+      // DB에서 중복 여부 확인
+      const { data: existingLink } = await clientSupabase
+        .from("LINK")
+        .select("shorten_link")
+        .eq("shorten_link", randomText)
+        .single();
+
+      if (existingLink) {
+        // 중복된 경우 다시 생성
+        return await generateUniqueLink();
+      }
+
+      // 중복되지 않은 경우 반환
+      return randomText;
+    }
+
+    const uniqueRandomText = await generateUniqueLink();
+
+    const { data, error } = await clientSupabase
+      .from("LINK")
+      .insert({
+        shorten_link: uniqueRandomText,
+        title: encodedTitle,
+        content: encodedDescription,
+        img_link: encodedImg,
+        redirect_link: encodedRedirectUrl,
+      })
+      .select();
+
+    if (error) {
+      console.error("Failed to insert data:", error);
+      return;
+    }
+
+    const url = `https://opengraph-snippet.vercel.app/gen/${uniqueRandomText}`;
+
     navigator.clipboard
       .writeText(url)
       .then(() => {
@@ -26,6 +68,7 @@ export default function Home() {
   useEffect(() => {
     titleRef.current?.focus();
   }, []);
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <div
