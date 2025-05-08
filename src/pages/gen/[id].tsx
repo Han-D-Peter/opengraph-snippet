@@ -32,6 +32,8 @@ export default function Gen({
       {title && <meta property="og:title" content={title} />}
       {content && <meta property="og:description" content={content} />}
       {img && <meta property="og:image" content={img} />}
+      <meta property="og:image:height" content="400"></meta>
+      <meta property="og:image:width" content="400"></meta>
       <meta
         property="og:url"
         content={`https://example.com/gen?title=${title}&content=${content}&img=${img}`}
